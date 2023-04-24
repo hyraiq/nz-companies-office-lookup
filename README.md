@@ -19,7 +19,7 @@ In order to use the API (only necessary for verification), you'll need to
 
 The SDK utilises the [Symfony Serializer](https://symfony.com/doc/current/components/serializer.html) and the
 [Symfony Validator](https://symfony.com/doc/current/components/validator.html) to deserialize and validate data returned
-from the API in order to provide a valid [NzBusinessRegistryResponse](./src/Model/NzBusinessRegistryResponse.php) model.
+from the API in order to provide a valid [NzCompanyResponse](./src/Model/NzCompanyResponse.php) model.
 This means that if you receive a response from the SDK, it is guaranteed to be valid.
 
 Invalid responses from the API fall into three categories, which are handled with exceptions:

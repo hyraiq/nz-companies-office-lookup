@@ -7,7 +7,7 @@ namespace Hyra\NzCompaniesOfficeLookup;
 use Hyra\NzCompaniesOfficeLookup\Exception\ConnectionException;
 use Hyra\NzCompaniesOfficeLookup\Exception\NumberInvalidException;
 use Hyra\NzCompaniesOfficeLookup\Exception\NumberNotFoundException;
-use Hyra\NzCompaniesOfficeLookup\Model\NzBusinessRegistryResponse;
+use Hyra\NzCompaniesOfficeLookup\Model\NzCompanyResponse;
 
 interface ApiClientInterface
 {
@@ -16,5 +16,5 @@ interface ApiClientInterface
      * @throws ConnectionException
      * @throws NumberNotFoundException
      */
-    public function lookupNumber(string $businessNumber): NzBusinessRegistryResponse;
+    public function lookupNumber(string $businessNumber): NzCompanyResponse;
 }

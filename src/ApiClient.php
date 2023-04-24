@@ -9,7 +9,7 @@ use Hyra\NzCompaniesOfficeLookup\Exception\NumberInvalidException;
 use Hyra\NzCompaniesOfficeLookup\Exception\NumberNotFoundException;
 use Hyra\NzCompaniesOfficeLookup\Exception\UnexpectedResponseException;
 use Hyra\NzCompaniesOfficeLookup\Model\AbstractResponse;
-use Hyra\NzCompaniesOfficeLookup\Model\NzBusinessRegistryResponse;
+use Hyra\NzCompaniesOfficeLookup\Model\NzCompanyResponse;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -36,7 +36,7 @@ final class ApiClient implements ApiClientInterface
         ]);
     }
 
-    public function lookupNumber(string $businessNumber): NzBusinessRegistryResponse
+    public function lookupNumber(string $businessNumber): NzCompanyResponse
     {
         if (false === BusinessNumberValidator::isValidNumber($businessNumber)) {
             throw new NumberInvalidException();
@@ -55,8 +55,8 @@ final class ApiClient implements ApiClientInterface
             );
         }
 
-        /** @var NzBusinessRegistryResponse $model */
-        $model = $this->decodeResponse($response, NzBusinessRegistryResponse::class);
+        /** @var NzCompanyResponse $model */
+        $model = $this->decodeResponse($response, NzCompanyResponse::class);
 
         return $model;
     }

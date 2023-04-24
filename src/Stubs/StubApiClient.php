@@ -8,17 +8,17 @@ use Hyra\NzCompaniesOfficeLookup\ApiClientInterface;
 use Hyra\NzCompaniesOfficeLookup\BusinessNumberValidator;
 use Hyra\NzCompaniesOfficeLookup\Exception\NumberInvalidException;
 use Hyra\NzCompaniesOfficeLookup\Exception\NumberNotFoundException;
-use Hyra\NzCompaniesOfficeLookup\Model\NzBusinessRegistryResponse;
+use Hyra\NzCompaniesOfficeLookup\Model\NzCompanyResponse;
 
 final class StubApiClient implements ApiClientInterface
 {
-    /** @var array<string, NzBusinessRegistryResponse> */
+    /** @var array<string, NzCompanyResponse> */
     private array $companyResponses = [];
 
     /** @var string[] */
     private array $notFoundBusinessNumbers = [];
 
-    public function lookupNumber(string $businessNumber): NzBusinessRegistryResponse
+    public function lookupNumber(string $businessNumber): NzCompanyResponse
     {
         if (false === BusinessNumberValidator::isValidNumber($businessNumber)) {
             throw new NumberInvalidException();
@@ -37,7 +37,7 @@ final class StubApiClient implements ApiClientInterface
         );
     }
 
-    public function addMockResponse(NzBusinessRegistryResponse ...$companyResponse): void
+    public function addMockResponse(NzCompanyResponse ...$companyResponse): void
     {
         foreach ($companyResponse as $response) {
             $this->companyResponses[$response->companyNumber] = $response;

@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace Hyra\Tests\NzCompaniesOfficeLookup\Model;
 
 use Hyra\NzCompaniesOfficeLookup\Model\AddressResponse;
-use Hyra\NzCompaniesOfficeLookup\Model\NzBusinessRegistryResponse;
+use Hyra\NzCompaniesOfficeLookup\Model\NzCompanyResponse;
 
-final class NzBusinessRegistryResponseTest extends BaseModelTest
+final class NzCompanyResponseTest extends BaseModelTest
 {
     public function testValidModel(): void
     {
         $data = $this->getValidResponse();
 
-        $parsed = $this->valid($data, NzBusinessRegistryResponse::class);
+        $parsed = $this->valid($data, NzCompanyResponse::class);
 
         static::assertSame('9429046230881', $parsed->companyNumber);
         static::assertSame('COWABUNGA BREWERIES LIMITED', $parsed->entityName);
@@ -23,15 +23,27 @@ final class NzBusinessRegistryResponseTest extends BaseModelTest
         static::assertSame('2017-07-19', $parsed->registrationDate->format('Y-m-d'));
         static::assertCount(1, $parsed->tradingNames);
         static::assertCount(1, $parsed->industryClassifications);
+        static::assertCount(2, $parsed->addresses);
 
-        // /** @var AddressResponse $address */
-        // $address = $parsed->address;
-        // static::assertSame('86 - 88 Uxbridge Road', $address->addressLine1);
-        // static::assertSame('Uxbridge Road Hanwell', $address->addressLine2);
-        // static::assertSame('W7 3SU', $address->postalCode);
-        // static::assertSame('London', $address->locality);
-        // static::assertNull($address->region);
-        // static::assertNull($address->country);
+        /** @var AddressResponse[] $addresses */
+        $addresses = $parsed->addresses;
+
+        // First address
+        static::assertSame('11 Mcdonald Street', $addresses[0]->address1);
+        static::assertSame('Morningside', $addresses[0]->address2);
+        static::assertSame('Auckland', $addresses[0]->address3);
+        static::assertNull($addresses[0]->address4);
+        static::assertSame('REGISTERED', $addresses[0]->addressType);
+        static::assertSame('NZ', $addresses[0]->countryCode);
+        static::assertSame('1025', $addresses[0]->postCode);
+        // Second address
+        static::assertSame('11 Mcdonald Street', $addresses[1]->address1);
+        static::assertSame('Morningside', $addresses[1]->address2);
+        static::assertSame('Auckland', $addresses[1]->address3);
+        static::assertNull($addresses[1]->address4);
+        static::assertSame('SERVICE', $addresses[1]->addressType);
+        static::assertSame('NZ', $addresses[1]->countryCode);
+        static::assertSame('1025', $addresses[1]->postCode);
     }
 
     /**
@@ -47,7 +59,7 @@ final class NzBusinessRegistryResponseTest extends BaseModelTest
             $data = $this->removeProperty($data, $key);
         }
 
-        $this->invalid($data, NzBusinessRegistryResponse::class);
+        $this->invalid($data, NzCompanyResponse::class);
     }
 
     /**

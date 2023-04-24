@@ -8,7 +8,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-final class NzBusinessRegistryResponse extends AbstractResponse
+final class NzCompanyResponse extends AbstractResponse
 {
     #[SerializedName('entityName')]
     #[NotBlank]
