@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 final class NzCompanyResponse extends AbstractResponse
 {
-    #[SerializedName('entityName')]
     #[NotBlank]
     public string $entityName;
 
