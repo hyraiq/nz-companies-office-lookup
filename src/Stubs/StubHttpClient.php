@@ -33,8 +33,8 @@ final class StubHttpClient implements HttpClientInterface
         }
 
         return match (true) {
-            (bool) \preg_match('/^\/entities\/(9429\\d{9})+$/i', $url) => $this->handleCompanyRequest($url, $options),
-            default                                                    => throw new \LogicException(
+            (bool) \preg_match('/^entities\/(9429\\d{9})+$/i', $url) => $this->handleCompanyRequest($url, $options),
+            default                                                  => throw new \LogicException(
                 'Not implemented: NZ Companies Office API client only responds to "/entities/{companyNumber}"'
             )
         };
