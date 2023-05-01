@@ -43,7 +43,7 @@ final class ApiClient implements ApiClientInterface
         }
 
         try {
-            $response = $this->client->request('GET', \sprintf('/entities/%s', $businessNumber))->getContent();
+            $response = $this->client->request('GET', \sprintf('entities/%s', $businessNumber))->getContent();
         } catch (HttpExceptionInterface | TransportExceptionInterface $e) {
             if (404 === $e->getCode()) {
                 throw new NumberNotFoundException();

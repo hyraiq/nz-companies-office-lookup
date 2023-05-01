@@ -18,7 +18,7 @@ final class AddressDenormalizer implements DenormalizerInterface, DenormalizerAw
     /**
      * @param mixed $data
      *
-     * @psalm-assert-if-true array{addressList:array, links:array|array} $data
+     * @psalm-assert-if-true array{addressList:array, links:array} $data
      */
     public function supportsDenormalization($data, string $type, string $format = null): bool
     {
