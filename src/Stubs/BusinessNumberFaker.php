@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace Hyra\NzCompaniesOfficeLookup\Stubs;
 
+use Hyra\NzCompaniesOfficeLookup\BusinessNumberValidator;
+
 final class BusinessNumberFaker
 {
-    private function __construct()
-    {
-    }
-
     public static function validBusinessNumber(): string
     {
         // NZBN company prefix
-        $companyPrefix = '9429';
+        $companyPrefix = BusinessNumberValidator::COMPANY_PREFIX;
 
         // @phpstan-ignore-next-line it can find an appropriate source of randomness
-        $randomNumber = \str_pad((string) \random_int(0, 9999999), 8, '0', \STR_PAD_LEFT);
+        $randomNumber = \str_pad((string) \random_int(0, 99_999_999), 8, '0', \STR_PAD_LEFT);
 
         $checkDigit = 0;
         for ($i = 0; $i < 12; $i += 2) {
@@ -31,6 +29,8 @@ final class BusinessNumberFaker
     public static function invalidBusinessNumber(): string
     {
         // @phpstan-ignore-next-line it can find an appropriate source of randomness
-        return \str_pad((string) \random_int(0, 9999999), 13, '0', \STR_PAD_LEFT);
+        $randomNumber = \str_pad((string) \random_int(0, 999_999_999), 9, '0', \STR_PAD_LEFT);
+
+        return \sprintf('1234%s', $randomNumber);
     }
 }

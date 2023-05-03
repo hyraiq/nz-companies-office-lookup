@@ -116,8 +116,7 @@ final class ApiClientTest extends TestCase
             'entityTypeDescription' => $response->entityTypeDescription,
             'status'                => $response->status,
             'registrationDate'      => $response->registrationDate->format('Y-m-d\TH:i:s.vO'),
-
-            'addresses' => [
+            'addresses'             => [
                 [
                     'address1'    => $response->addresses[0]->address1,
                     'address2'    => $response->addresses[0]->address2,
