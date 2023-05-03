@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Hyra\Tests\NzCompaniesOfficeLookup\Unit;
 
 use Hyra\NzCompaniesOfficeLookup\BusinessNumberValidator;
+use Hyra\NzCompaniesOfficeLookup\Stubs\BusinessNumberFaker;
 use PHPUnit\Framework\TestCase;
 
 class BusinessNumberValidatorTest extends TestCase
@@ -54,5 +55,25 @@ class BusinessNumberValidatorTest extends TestCase
             'invalid prefix'          => ['0231566199093'],
             'invalid GTIN-13'         => ['9429033128888'],
         ];
+    }
+
+    public function testRandomValidNumbers(): void
+    {
+        for ($i = 0; $i < 100; ++$i) {
+            $businessNumber = BusinessNumberFaker::validBusinessNumber();
+            $result         = BusinessNumberValidator::isValidNumber($businessNumber);
+
+            static::assertTrue($result, \sprintf('The number %s is not valid', $businessNumber));
+        }
+    }
+
+    public function testRandomInvalidNumbers(): void
+    {
+        for ($i = 0; $i < 100; ++$i) {
+            $businessNumber = BusinessNumberFaker::invalidBusinessNumber();
+            $result         = BusinessNumberValidator::isValidNumber($businessNumber);
+
+            static::assertFalse($result, \sprintf('The number %s is not invalid', $businessNumber));
+        }
     }
 }
