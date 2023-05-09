@@ -63,6 +63,12 @@ class VerifyController extends AbtractController
 }
 ```
 
+You also need to add the custom address denormalizer to the `services.yaml`:
+
+```yaml
+Hyra\NzCompaniesOfficeLookup\Model\AddressDenormalizer: ~
+```
+
 ### Configuration outside Symfony
 
 If you're not using Symfony, you'll need to instantiate the API client yourself, which can be registered in your service
