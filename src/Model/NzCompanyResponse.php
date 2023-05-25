@@ -32,32 +32,20 @@ final class NzCompanyResponse extends AbstractResponse
 
     /**
      * @var TradingNamesResponse[]
-     *
-     * @Assert\All({
-     *
-     *     @Assert\Type("Hyra\NzCompaniesOfficeLookup\Model\TradingNamesResponse")
-     * })
      */
+    #[Assert\All(constraints: new Assert\Type(TradingNamesResponse::class))]
     public array $tradingNames = [];
 
     /**
      * @var AddressResponse[]
-     *
-     * @Assert\All({
-     *
-     *     @Assert\Type("Hyra\NzCompaniesOfficeLookup\Model\AddressResponse")
-     * })
      */
+    #[Assert\All(constraints: new Assert\Type(AddressResponse::class))]
     public array $addresses = [];
 
     /**
      * @var IndustryClassificationsResponse[]
-     *
-     * @Assert\All({
-     *
-     *     @Assert\Type("Hyra\NzCompaniesOfficeLookup\Model\IndustryClassificationsResponse")
-     * })
      */
+    #[Assert\All(constraints: new Assert\Type(IndustryClassificationsResponse::class))]
     public array $industryClassifications = [];
 
     public function isActive(): bool
