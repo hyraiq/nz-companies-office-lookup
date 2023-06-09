@@ -44,8 +44,6 @@ final class AddressDenormalizer implements DenormalizerInterface, DenormalizerAw
 
     /**
      * @return array<'*'|'object'|class-string|string, null|bool>
-     *
-     * @psalm-suppress UnusedParam
      */
     public function getSupportedTypes(?string $format): array
     {
