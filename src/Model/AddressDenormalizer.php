@@ -41,4 +41,16 @@ final class AddressDenormalizer implements DenormalizerInterface, DenormalizerAw
 
         return $this->denormalizer->denormalize($data['addressList'], $type);
     }
+
+    /**
+     * @return array<'*'|'object'|class-string|string, null|bool>
+     *
+     * @psalm-suppress UnusedParam
+     */
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            'Hyra\NzCompaniesOfficeLookup\Model\AddressResponse[]' => false,
+        ];
+    }
 }
