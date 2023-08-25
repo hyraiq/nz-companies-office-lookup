@@ -12,5 +12,5 @@ final class IndustryClassificationsResponse extends AbstractResponse
     public string $code;
 
     #[SerializedName('classificationDescription')]
-    public string $description;
+    public ?string $description;
 }
