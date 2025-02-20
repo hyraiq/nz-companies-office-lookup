@@ -50,7 +50,7 @@ final class ApiClient implements ApiClientInterface
             }
 
             throw new ConnectionException(
-                \sprintf('Unable to connect to the Companies House API: %s', $e->getMessage()),
+                \sprintf('Unable to connect to the Companies Office API: %s', $e->getMessage()),
                 $e
             );
         }
