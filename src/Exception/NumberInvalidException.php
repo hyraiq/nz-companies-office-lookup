@@ -7,7 +7,7 @@ namespace Hyra\NzCompaniesOfficeLookup\Exception;
 class NumberInvalidException extends \RuntimeException
 {
     public function __construct(
-        \Throwable $previous = null
+        ?\Throwable $previous = null,
     ) {
         parent::__construct(
             'Invalid business number',

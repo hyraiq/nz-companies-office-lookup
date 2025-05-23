@@ -16,11 +16,13 @@ final class AddressDenormalizer implements DenormalizerInterface, DenormalizerAw
     use DenormalizerAwareTrait;
 
     /**
-     * @param mixed $data
+     * {@inheritdoc}
+     *
+     * @param mixed[] $context
      *
      * @psalm-assert-if-true array{addressList:array, links:array} $data
      */
-    public function supportsDenormalization($data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return 'Hyra\NzCompaniesOfficeLookup\Model\AddressResponse[]' === $type && \is_array($data) && isset($data['addressList']);
     }
@@ -31,7 +33,7 @@ final class AddressDenormalizer implements DenormalizerInterface, DenormalizerAw
      * @param mixed   $data    Object to normalize
      * @param mixed[] $context Context options for the normalizer
      */
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if (false === $this->supportsDenormalization($data, $type, $format)) {
             // This will never happen, because Symfony calls `supportsDenormalization` before calling `denormalize`.
