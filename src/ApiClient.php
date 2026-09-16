@@ -30,7 +30,7 @@ final class ApiClient implements ApiClientInterface
         string $baseApiUri = 'https://api.business.govt.nz/gateway/nzbn/v5/',
     ) {
         $this->client = $client->withOptions([
-            'base_uri' => $baseApiUri,
+            'base_uri' => \rtrim($baseApiUri, '/') . '/',
             'headers'  => [
                 'Ocp-Apim-Subscription-Key' => $apiKey,
             ],

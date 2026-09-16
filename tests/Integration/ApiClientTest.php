@@ -55,9 +55,11 @@ final class ApiClientTest extends TestCase
         ]);
     }
 
-    public function testLookupNumberUsesConfiguredBaseApiUri(): void
+    /**
+     * @dataProvider getBaseApiUriTests
+     */
+    public function testLookupNumberUsesConfiguredBaseApiUri(string $baseApiUri, string $expectedUrl): void
     {
-        $baseApiUri   = 'https://mock-api.test/nzbn/v5/';
         $mockResponse = new MockResponse(
             \json_encode(MockBusinessRegistryResponse::valid(), \JSON_THROW_ON_ERROR)
         );
@@ -72,10 +74,28 @@ final class ApiClientTest extends TestCase
 
         $client->lookupNumber(self::BusinessNumber);
 
-        static::assertSame(
-            \sprintf('%sentities/%s', $baseApiUri, self::BusinessNumber),
-            $mockResponse->getRequestUrl()
-        );
+        static::assertSame($expectedUrl, $mockResponse->getRequestUrl());
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getBaseApiUriTests(): array
+    {
+        return [
+            'trailing slash' => [
+                'https://mock-api.test/nzbn/v5/',
+                'https://mock-api.test/nzbn/v5/entities/' . self::BusinessNumber,
+            ],
+            'no trailing slash' => [
+                'https://mock-api.test/nzbn/v5',
+                'https://mock-api.test/nzbn/v5/entities/' . self::BusinessNumber,
+            ],
+            'no path' => [
+                'http://localhost:8080',
+                'http://localhost:8080/entities/' . self::BusinessNumber,
+            ],
+        ];
     }
 
     public function testLookupNumberInvalidNumberDoesNotUseApi(): void
