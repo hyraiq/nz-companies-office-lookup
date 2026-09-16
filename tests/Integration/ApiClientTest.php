@@ -15,6 +15,8 @@ use Hyra\NzCompaniesOfficeLookup\Exception\UnexpectedResponseException;
 use Hyra\NzCompaniesOfficeLookup\Stubs\MockBusinessRegistryResponse;
 use Hyra\NzCompaniesOfficeLookup\Stubs\StubHttpClient;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class ApiClientTest extends TestCase
 {
@@ -51,6 +53,29 @@ final class ApiClientTest extends TestCase
                 'Ocp-Apim-Subscription-Key' => $this->apiKey,
             ],
         ]);
+    }
+
+    public function testLookupNumberUsesConfiguredBaseApiUri(): void
+    {
+        $baseApiUri   = 'https://mock-api.test/nzbn/v5/';
+        $mockResponse = new MockResponse(
+            \json_encode(MockBusinessRegistryResponse::valid(), \JSON_THROW_ON_ERROR)
+        );
+
+        $client = new ApiClient(
+            Dependencies::serializer(),
+            Dependencies::validator(),
+            new MockHttpClient($mockResponse),
+            $this->apiKey,
+            $baseApiUri,
+        );
+
+        $client->lookupNumber(self::BusinessNumber);
+
+        static::assertSame(
+            \sprintf('%sentities/%s', $baseApiUri, self::BusinessNumber),
+            $mockResponse->getRequestUrl()
+        );
     }
 
     public function testLookupNumberInvalidNumberDoesNotUseApi(): void

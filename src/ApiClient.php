@@ -27,9 +27,10 @@ final class ApiClient implements ApiClientInterface
         private ValidatorInterface $validator,
         HttpClientInterface $client,
         string $apiKey,
+        string $baseApiUri = 'https://api.business.govt.nz/gateway/nzbn/v5/',
     ) {
         $this->client = $client->withOptions([
-            'base_uri' => 'https://api.business.govt.nz/gateway/nzbn/v5/',
+            'base_uri' => $baseApiUri,
             'headers'  => [
                 'Ocp-Apim-Subscription-Key' => $apiKey,
             ],
