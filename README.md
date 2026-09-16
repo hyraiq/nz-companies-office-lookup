@@ -49,6 +49,10 @@ Hyra\NzCompaniesHouseLookup\ApiClient:
         $apiKey: "%env(NZ_COMPANIES_OFFICE_API_KEY)%"
 ```
 
+The `ApiClient` also takes an optional `$baseApiUri` argument, which defaults to the live API. Pass it if you need to
+point the client at a mock server, for example in automated tests. The trailing slash is optional; the client treats
+the value as a base path either way.
+
 You can then inject the `ApiClientInterface` directly into your controllers/services.
 
 ```php
@@ -88,6 +92,9 @@ $denormalizer = Dependencies::serializer();
 $validator = Dependencies::validator();
 
 $apiClient = new ApiClient($denormalizer, $validator, $httpClient, $apiKey);
+
+// Or, to call a mock server instead of the live API
+$apiClient = new ApiClient($denormalizer, $validator, $httpClient, $apiKey, 'http://localhost:8080/nzbn/v5');
 ```
 
 ### Looking up a business number

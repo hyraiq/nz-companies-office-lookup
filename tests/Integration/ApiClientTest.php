@@ -15,6 +15,8 @@ use Hyra\NzCompaniesOfficeLookup\Exception\UnexpectedResponseException;
 use Hyra\NzCompaniesOfficeLookup\Stubs\MockBusinessRegistryResponse;
 use Hyra\NzCompaniesOfficeLookup\Stubs\StubHttpClient;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class ApiClientTest extends TestCase
 {
@@ -51,6 +53,49 @@ final class ApiClientTest extends TestCase
                 'Ocp-Apim-Subscription-Key' => $this->apiKey,
             ],
         ]);
+    }
+
+    /**
+     * @dataProvider getBaseApiUriTests
+     */
+    public function testLookupNumberUsesConfiguredBaseApiUri(string $baseApiUri, string $expectedUrl): void
+    {
+        $mockResponse = new MockResponse(
+            \json_encode(MockBusinessRegistryResponse::valid(), \JSON_THROW_ON_ERROR)
+        );
+
+        $client = new ApiClient(
+            Dependencies::serializer(),
+            Dependencies::validator(),
+            new MockHttpClient($mockResponse),
+            $this->apiKey,
+            $baseApiUri,
+        );
+
+        $client->lookupNumber(self::BusinessNumber);
+
+        static::assertSame($expectedUrl, $mockResponse->getRequestUrl());
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getBaseApiUriTests(): array
+    {
+        return [
+            'trailing slash' => [
+                'https://mock-api.test/nzbn/v5/',
+                'https://mock-api.test/nzbn/v5/entities/' . self::BusinessNumber,
+            ],
+            'no trailing slash' => [
+                'https://mock-api.test/nzbn/v5',
+                'https://mock-api.test/nzbn/v5/entities/' . self::BusinessNumber,
+            ],
+            'no path' => [
+                'http://localhost:8080',
+                'http://localhost:8080/entities/' . self::BusinessNumber,
+            ],
+        ];
     }
 
     public function testLookupNumberInvalidNumberDoesNotUseApi(): void
